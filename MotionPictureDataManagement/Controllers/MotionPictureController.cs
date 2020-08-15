@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 namespace MotionPictureDataManagement.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MotionPictureController : ControllerBase
     {
         string connectionString = "Server=localhost\\SQLExpress;Database=MotionPicture;Integrated Security=True;";
