@@ -1,2 +1,0 @@
-import { apiBase } from 'variables';
-

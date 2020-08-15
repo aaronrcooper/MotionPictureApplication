@@ -1,1 +1,0 @@
-export const apiBase = 'https://localhost:44332/api/';
