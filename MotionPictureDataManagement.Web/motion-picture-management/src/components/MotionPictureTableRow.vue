@@ -1,7 +1,6 @@
 <template>
   <tr>
-    <th scope="row">{{motionPicture.id}}</th>
-    <td>{{motionPicture.name}}</td>
+    <th scope="row">{{motionPicture.name}}</th>
     <td>{{motionPicture.description}}</td>
     <td>{{motionPicture.releaseYear}}</td>
     <td class="actions">
@@ -60,6 +59,7 @@ a {
 
 .actions i {
   margin: 0px 4px;
+  color: black;
 }
 
 .actions i:hover {

@@ -40,9 +40,6 @@ export default {
       this.formErrors = [];
     },
   },
-  beforeCreated: function () {
-    console.log("parent");
-  },
   computed: {
     submitDisabled() {
       return !this.name || !this.releaseYear || this.formErrors.length > 0;

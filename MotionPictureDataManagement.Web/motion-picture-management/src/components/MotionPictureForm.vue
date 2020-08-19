@@ -12,18 +12,6 @@
       >Delete</button>
     </div>
 
-    <div class="form-group col-md-4" v-if="motionPicture.id">
-      <label for="Id">ID</label>
-      <input
-        type="number"
-        class="form-control"
-        id="id"
-        ref="id"
-        placeholder="Id"
-        v-model="motionPicture.id"
-        disabled
-      />
-    </div>
     <div class="form-group col-md-4">
       <label for="name">Name</label>
       <input
@@ -115,10 +103,12 @@ export default {
   },
   methods: {
     submit: function () {
+      // If we fail validation, return
       if (!this.validateForm()) {
         return;
       }
 
+    // emit to parent that the form has been submitted
       this.$emit("submitted", this.motionPicture);
     },
 
@@ -128,11 +118,12 @@ export default {
     },
 
     validateForm: function () {
+      // Clear form errors before we validate so we don't get duplicate errors
       this.clearFormErrors();
 
       this.validateFormName();
-      this.validateDescription();
-      this.validateReleaseYear();
+      this.validateFormDescription();
+      this.validateFormReleaseYear();
 
       return this.formIsValid;
     },
@@ -167,7 +158,7 @@ export default {
       }
       nameElementReference.border = "2px red";
     },
-    validateDescription: function () {
+    validateFormDescription: function () {
       if (!this.motionPicture.description) {
         return;
       }
@@ -178,7 +169,7 @@ export default {
         );
       }
     },
-    validateReleaseYear: function () {
+    validateFormReleaseYear: function () {
       if (!this.releaseYearText) {
         this.formErrors.releaseYear.push("Release year is required");
       }
