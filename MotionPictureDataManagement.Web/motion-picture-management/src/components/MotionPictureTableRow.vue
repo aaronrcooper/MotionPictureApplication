@@ -5,22 +5,25 @@
     <td>{{motionPicture.description}}</td>
     <td>{{motionPicture.releaseYear}}</td>
     <td class="actions">
-      <i class="fas fa-edit"></i>
-      <i class="far fa-copy"></i>
+      <router-link v-bind:to="'/motion-picture/' + motionPicture.id">
+        <i class="fas fa-edit"></i>
+      </router-link>
+      <router-link v-bind:to="'/motion-picture/copy/' + motionPicture.id">
+        <i class="far fa-copy"></i>
+      </router-link>
       <i class="fas fa-trash-alt" v-on:click="deleteMotionPicture(motionPicture.id)"></i>
     </td>
   </tr>
 </template>
 
 <script>
-
-import {apiBase } from '../../variables';
-import axios from 'axios';
+import { apiBase } from "../../variables";
+import axios from "axios";
 
 export default {
   name: "MotionPictureTableRow",
   props: {
-    motionPicture: Object
+    motionPicture: Object,
   },
   methods: {
     deleteMotionPicture: function (id) {
@@ -28,9 +31,11 @@ export default {
         .delete(`${apiBase}MotionPicture/${id}`)
         .then(() => {
           // Emit to parent that we removed this item
-          this.$emit('removed', id);
+          this.$emit("removed", id);
         })
-        .catch();
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

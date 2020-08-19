@@ -1,18 +1,13 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <MotionPictureTable />
+    <h1>Motion Picture Data Management</h1>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import MotionPictureTable from './components/MotionPictureTable.vue';
-
 export default {
   name: 'App',
-  components: {
-    MotionPictureTable
-  },
 }
 </script>
 
@@ -23,6 +18,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 8px 8px 0px;
 }
 </style>

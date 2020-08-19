@@ -6,7 +6,7 @@
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Release Year</th>
-        <th scope="col"></th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -21,9 +21,8 @@
 </template>
 
 <script>
-import { apiBase } from "../../variables";
-import axios from "axios";
 import MotionPictureTableRow from "./MotionPictureTableRow";
+import { MotionPictureApi } from '../api/MotionPictureApi';
 
 export default {
   name: "MotionPictureTable",
@@ -36,9 +35,8 @@ export default {
     MotionPictureTableRow,
   },
   mounted() {
-    axios
-      .get(apiBase + "MotionPictures")
-      .then((response) => (this.motionPictures = response.data));
+      MotionPictureApi.getMotionPictures()
+        .then((response) => (this.motionPictures = response.data));
   },
   methods: {
     removeMotionPicture: function (id) {

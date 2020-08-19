@@ -8,8 +8,8 @@ namespace MotionPictureDataManagement.API.Models
 {
     public class MotionPicture
     {
-        // PK / NN  
-        public int Id { get; set; }
+        // PK / NN
+        public int? Id { get; set; }
         // NVARCHAR(50)/NN
         [Required]
         public string Name { get; set; }
