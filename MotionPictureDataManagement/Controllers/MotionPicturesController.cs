@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,15 +19,13 @@ namespace MotionPictureDataManagement.API.Controllers
     public class MotionPicturesController : ControllerBase
     {
         private readonly ILogger<MotionPicturesController> _logger;
-        private readonly IConfiguration _config;
-        private readonly string _connectionString;
+        private readonly IDbConnection connection;
 
         public MotionPicturesController(ILogger<MotionPicturesController> logger,
-            IConfiguration config)
+            IDbConnection connection)
         {
             _logger = logger;
-            _config = config;
-            _connectionString = _config.GetConnectionString("MotionPictureDb");
+            this.connection = connection;
         }
 
         [HttpGet]
@@ -36,10 +35,7 @@ namespace MotionPictureDataManagement.API.Controllers
             var query = "SELECT * FROM MotionPictures";
             try
             {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    result = connection.Query<MotionPicture>(query);
-                }
+                result = connection.Query<MotionPicture>(query);
             }
             catch (SqlException ex)
             {

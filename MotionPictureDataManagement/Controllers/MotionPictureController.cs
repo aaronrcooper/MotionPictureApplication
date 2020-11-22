@@ -10,6 +10,7 @@ using MotionPictureDataManagement.API.Models;
 using Dapper;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace MotionPictureDataManagement.Controllers
 {
@@ -17,16 +18,14 @@ namespace MotionPictureDataManagement.Controllers
     [Route("api/[controller]")]
     public class MotionPictureController : ControllerBase
     {
-        private readonly string _connectionString;
         private readonly ILogger<MotionPictureController> _logger;
-        private readonly IConfiguration _config;
+        private readonly IDbConnection connection;
 
-        public MotionPictureController(ILogger<MotionPictureController> logger, 
-            IConfiguration config)
+        public MotionPictureController(ILogger<MotionPictureController> logger,
+            IDbConnection connection)
         {
             _logger = logger;
-            _config = config;
-            _connectionString = _config.GetConnectionString("MotionPictureDb");
+            this.connection = connection;
         }
 
         [HttpGet("{id}")]
@@ -37,14 +36,12 @@ namespace MotionPictureDataManagement.Controllers
             var query = "SELECT * FROM MotionPictures WHERE Id = @Id";
             try
             {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    result = connection.QuerySingleOrDefault<MotionPicture>(query, new { Id = id });
 
-                    if (result == null)
-                    {
-                        return NotFound();
-                    }
+                result = connection.QuerySingleOrDefault<MotionPicture>(query, new { Id = id });
+
+                if (result == null)
+                {
+                    return NotFound();
                 }
             }
             catch (SqlException ex)
@@ -58,18 +55,22 @@ namespace MotionPictureDataManagement.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(MotionPicture), 200)]
-        public IActionResult PostMotionPicture([FromBody] MotionPicture model)
+        public async Task<IActionResult> PostMotionPicture([FromBody] MotionPicture model)
         {
             MotionPicture result;
-            var query = "INSERT INTO MotionPictures (Name, Description, ReleaseYear) OUTPUT INSERTED.Id, "
-                +"INSERTED.Name, INSERTED.ReleaseYear, INSERTED.Description VALUES (@Name, @Description, @ReleaseYear)";
+            var query = "INSERT INTO MotionPictures (Name, Description, ReleaseYear) "
+                + "VALUES (@Name, @Description, @ReleaseYear); SELECT LAST_INSERT_ID();";
             try
             {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    result = connection.QuerySingle<MotionPicture>(query,
-                        new { Name = model.Name, Description = model.Description, ReleaseYear = model.ReleaseYear });
-                }
+                var dbResult = await connection.QueryAsync<int>(query,
+                    new { Name = model.Name, Description = model.Description, ReleaseYear = model.ReleaseYear });
+                var lastId = dbResult.First();
+                result = new MotionPicture {
+                        Id = lastId,
+                        Name = model.Name,
+                        Description = model.Description,
+                        ReleaseYear = model.ReleaseYear
+                    };
             }
             catch (SqlException ex)
             {
@@ -95,11 +96,8 @@ namespace MotionPictureDataManagement.Controllers
                         + "WHERE Id=@Id";
             try
             {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    result = connection.QuerySingle<MotionPicture>(query,
-                        new { Id = model.Id, Name = model.Name, Description = model.Description, ReleaseYear = model.ReleaseYear });
-                }
+                result = connection.QuerySingle<MotionPicture>(query,
+                    new { Id = model.Id, Name = model.Name, Description = model.Description, ReleaseYear = model.ReleaseYear });
             }
             catch (SqlException ex)
             {
@@ -116,11 +114,8 @@ namespace MotionPictureDataManagement.Controllers
             var query = "DELETE FROM MotionPictures WHERE Id = @Id";
             try
             {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    var row = connection.Execute(query,
-                        new { Id = id });
-                }
+                var row = connection.Execute(query,
+                    new { Id = id });
             }
             catch (SqlException ex)
             {

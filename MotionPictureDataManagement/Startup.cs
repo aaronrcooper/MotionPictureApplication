@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
 
 namespace MotionPictureDataManagement.API
 {
@@ -34,6 +36,8 @@ namespace MotionPictureDataManagement.API
                         Version = "v1"
                 });
             });
+
+            services.AddScoped<IDbConnection, MySqlConnection>(_ => new MySqlConnection(Configuration.GetConnectionString("MotionPictureDb")));
 
             services.AddSingleton<IConfiguration>(Configuration);
         }
