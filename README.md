@@ -6,6 +6,6 @@ The project is composed of three main folders:
 3. Scripts - Contains the database script
 
 # Running the Vue.js Application
-Navigate to the `MotionPictureDataManagement.Web/motion-picture-management` and run the command
+Navigate to the `MotionPictureDataManagement.Vue/motion-picture-management` and run the command
 
 `npm run serve`
