@@ -5,7 +5,32 @@ The project is composed of three main folders:
 2. MotionPictureDataManagement.Web - Contains the Vue.js application
 3. Scripts - Contains the database script
 
-# Running the Vue.js Application
-Navigate to the `MotionPictureDataManagement.Vue/motion-picture-management` and run the command
+# Running the Applications
+The application can be ran using a MySql Docker Image by installing the Docker Command Line tools and running 
 
-`npm run serve`
+```
+docker-compose up -d
+```
+
+from the [root](./) of the repository.
+
+Using these default settings in the Docker file, the connection string for the dotnet project will be:
+`Server=localhost;port=3306;Database=MotionPicture;Uid=root;Pwd=password`
+This setting can be found in [appsettings](./MotionPictureDataManagement/appsettings.Development.json)
+
+## Running the API
+The following command will start the application from the root of the project
+```
+dotnet run -p MotionPictureDataManagement
+```
+
+### Prerequisites
+- Dotnet SDK
+
+
+# Running the Vue.js Application
+
+Prior to running the application, you must install all dependencies by navigating to [the Vue project](./MotionPictureDataManagement.Vue/motion-picture-management) and run 
+the `npm install` command.
+
+After downloading the dependencies, navigate to the `MotionPictureDataManagement.Vue/motion-picture-management` and run the command `npm run serve`.
