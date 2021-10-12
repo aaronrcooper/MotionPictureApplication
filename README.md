@@ -25,12 +25,15 @@ dotnet run -p MotionPictureDataManagement
 ```
 
 ### Prerequisites
-- Dotnet SDK
+- [Dotnet SDK](https://dotnet.microsoft.com/download)
 
 
-# Running the Vue.js Application
+## Running the Vue.js Application
 
 Prior to running the application, you must install all dependencies by navigating to [the Vue project](./MotionPictureDataManagement.Vue/motion-picture-management) and run 
 the `npm install` command.
 
 After downloading the dependencies, navigate to the `MotionPictureDataManagement.Vue/motion-picture-management` and run the command `npm run serve`.
+
+### Prerequisites
+- [NPM](https://nodejs.org/en/)
