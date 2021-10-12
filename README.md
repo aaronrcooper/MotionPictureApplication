@@ -24,6 +24,11 @@ The following command will start the application from the root of the project
 dotnet run -p MotionPictureDataManagement
 ```
 
+### Swagger
+Included in the project is a [Swagger UI view.](https://localhost:5001/api/docs)
+
+It will be deployed under the `/api/docs` path when you launch your application. The above link uses the dotnet default port.
+
 ### Prerequisites
 - [Dotnet SDK](https://dotnet.microsoft.com/download)
 
